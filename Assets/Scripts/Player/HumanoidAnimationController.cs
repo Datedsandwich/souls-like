@@ -46,9 +46,7 @@ public class HumanoidAnimationController : MonoBehaviour {
 				targetAnimation = twoHandedAttacks[attack];
 			}
 
-			vertical = 0;
 			animator.CrossFade(targetAnimation, 0.2f);
-			animator.SetBool("ApplyRootMotion", true);
 			isAttacking = false;
 		} else {
 			animator.SetFloat("Vertical", vertical);

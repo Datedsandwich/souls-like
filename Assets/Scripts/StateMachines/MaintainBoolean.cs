@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MaintainBoolean : StateMachineBehaviour {
+	public bool resetOnStateExit;
 	public string booleanName;
 	public bool booleanState;
 
@@ -11,6 +12,8 @@ public class MaintainBoolean : StateMachineBehaviour {
 	}
 
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		animator.SetBool(booleanName, !booleanState);
+		if(resetOnStateExit) {
+			animator.SetBool(booleanName, !booleanState);
+		}
 	}
 }
