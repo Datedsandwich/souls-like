@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(InputController))]
 public class StateManager : MonoBehaviour {
-	public float horizontal;
-	public float vertical;
-
 	public bool isLockedOn;
 
 	public GameObject activeModel;
 	private Animator animator;
+	private InputController inputController;
 
 	void Start() {
 		if(activeModel == null) {
 			Debug.LogError("No active model assigned to the StateManager!");
 		}
 
-		animator = activeModel.GetComponent<Animator>();		
+		animator = activeModel.GetComponent<Animator>();
+		inputController = GetComponent<InputController>();
 
 		animator.applyRootMotion = false;
 	}
 
-	public void FixedTick(float absoluteMovement) {
+	void FixedUpdate() {
 		if(!isLockedOn) {
-			animator.SetFloat("Vertical", absoluteMovement);
+			animator.SetFloat("Vertical", inputController.totalMovement, 0.4f, Time.fixedDeltaTime);
 		} else {
-			animator.SetFloat("Horizontal", horizontal);
-			animator.SetFloat("Vertical", vertical);
+			animator.SetFloat("Horizontal", inputController.horizontal);
+			animator.SetFloat("Vertical", inputController.vertical);
 		}
 	}
 }
