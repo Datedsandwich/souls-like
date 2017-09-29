@@ -22,11 +22,25 @@ public class StateManager : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		HandleMovementAnimations();
+
+		if(inputController.isSprinting) {
+			isLockedOn = false;
+		}
+	}
+
+	public void setGrounded(bool isGrounded) {
+		animator.SetBool("IsGrounded", isGrounded);
+	}
+
+	private void HandleMovementAnimations() {
 		if(!isLockedOn) {
 			animator.SetFloat("Vertical", inputController.totalMovement, 0.4f, Time.fixedDeltaTime);
 		} else {
 			animator.SetFloat("Horizontal", inputController.horizontal);
 			animator.SetFloat("Vertical", inputController.vertical);
 		}
+
+		animator.SetBool("isSprinting", inputController.isSprinting);
 	}
 }
