@@ -42,9 +42,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public void HandleMovement(float horizontal, float vertical) {
-		rigidbody.drag = (isMoving || isGrounded) ? 4 : 1;
+		rigidbody.drag = (isMoving || isGrounded) ? 4 : 0;
 
-		if(isGrounded) {
+		if(isGrounded && !stateManager.isApplyingRootMotion) {
 			float targetSpeed = inputController.totalMovement > 0.5 ? runSpeed : walkSpeed;
 			targetSpeed = inputController.isSprinting ? sprintSpeed : targetSpeed;
 
@@ -71,7 +71,6 @@ public class PlayerMovement : MonoBehaviour {
 		float distanceToGround = 0.5f;
 		Vector3 origin = transform.position	+ (Vector3.up * distanceToGround);
 
-		Debug.DrawRay(origin, -Vector3.up, Color.black, distanceToGround + 0.1f);
 		if(Physics.Raycast(origin, -Vector3.up, distanceToGround + 0.1f, ignoreLayers)) {
 			return true;
 		}
